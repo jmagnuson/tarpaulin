@@ -6,7 +6,10 @@ use crate::source_analysis::LineAnalysis;
 use crate::statemachine::*;
 use crate::test_loader::*;
 use crate::traces::*;
-use cargo::core::{compiler::{CompileMode, ProfileKind}, Package, Shell, Workspace};
+use cargo::core::{
+    compiler::{CompileMode, ProfileKind},
+    Package, Shell, Workspace,
+};
 use cargo::ops;
 use cargo::ops::{
     clean, compile, CleanOptions, CompileFilter, CompileOptions, FilterRule, LibRule, Packages,
@@ -68,12 +71,13 @@ pub fn launch_tarpaulin(config: &Config) -> Result<(TraceMap, i32), RunError> {
     let _ = cargo_config.configure(
         0u32,
         flag_quiet,
-        &None,
+        None,
         config.frozen,
         config.locked,
         config.offline,
         &config.target_dir,
         &config.unstable_features,
+        &[],
     );
 
     let workspace = Workspace::new(config.manifest.as_path(), &cargo_config)
